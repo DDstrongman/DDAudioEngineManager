@@ -17,7 +17,7 @@
 
 @implementation DDAudioEngineManager
 
-+ (TWAudioUtil *)ShareInstance {
++ (DDAudioEngineManager *)ShareInstance {
     static DDAudioEngineManager *sharedDDAudioEngineManagerInstance = nil;
     static dispatch_once_t predicate;
     dispatch_once(&predicate, ^{
