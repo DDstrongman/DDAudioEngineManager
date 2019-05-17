@@ -62,10 +62,10 @@
                                    // 音频通道数 1 或 2
                                    [NSNumber numberWithInt: 1], AVNumberOfChannelsKey,
                                    //录音质量
-//                                   [NSNumber numberWithInt:AVAudioQualityHigh],AVEncoderAudioQualityKey,
+                                   [NSNumber numberWithInt:AVAudioQualityHigh],AVEncoderAudioQualityKey,
                                    nil];
     AVAudioFile *file = [[AVAudioFile alloc]initForWriting:self.recordFileUrl settings:recordSetting error:&fileError];
-    DDLog(@"path=====%@,error=====%@",self.recordFileUrl,fileError);
+//    DDLog(@"path=====%@,error=====%@",self.recordFileUrl,fileError);
     
     AVAudioFormat *recordingFormat = [[self.audioEngine inputNode] outputFormatForBus:0];
     [[self.audioEngine inputNode] installTapOnBus:0 bufferSize:1024 format:recordingFormat block:^(AVAudioPCMBuffer * _Nonnull buffer, AVAudioTime * _Nonnull when) {
@@ -85,20 +85,20 @@
     NSError *error;
     // Create AVAudioFile
     AVAudioFile *file = [[AVAudioFile alloc] initForReading:audioPath error:&error];
-//    // Create AVAudioPCMBuffer
-//    AVAudioFormat *format = file.processingFormat;
-//    AVAudioFrameCount capacity = (AVAudioFrameCount)file.length;
-//    AVAudioPCMBuffer *buffer = [[AVAudioPCMBuffer alloc] initWithPCMFormat:format frameCapacity:capacity];
-//    // Read AVAudioFile -> AVAudioPCMBuffer
-//    [file readIntoBuffer:buffer error:nil];
+    //    // Create AVAudioPCMBuffer
+    //    AVAudioFormat *format = file.processingFormat;
+    //    AVAudioFrameCount capacity = (AVAudioFrameCount)file.length;
+    //    AVAudioPCMBuffer *buffer = [[AVAudioPCMBuffer alloc] initWithPCMFormat:format frameCapacity:capacity];
+    //    // Read AVAudioFile -> AVAudioPCMBuffer
+    //    [file readIntoBuffer:buffer error:nil];
     
     AVAudioPlayerNode *player = [[AVAudioPlayerNode alloc] init];
     [self.audioEngine attachNode:player];
     // 4. Connect player node to engine's main mixer
     AVAudioMixerNode *mixer = self.audioEngine.mainMixerNode;
     [self.audioEngine connect:player to:mixer format:[mixer outputFormatForBus:0]];
-//    AVAudioFormat *processingFormat = [[AVAudioFormat alloc] initWithCommonFormat:AVAudioPCMFormatInt16 sampleRate:file.processingFormat.streamDescription->mSampleRate channels:1 interleaved:false];
-//    [self.audioEngine connect:player to:self.audioEngine.outputNode format:processingFormat];
+    //    AVAudioFormat *processingFormat = [[AVAudioFormat alloc] initWithCommonFormat:AVAudioPCMFormatInt16 sampleRate:file.processingFormat.streamDescription->mSampleRate channels:1 interleaved:false];
+    //    [self.audioEngine connect:player to:self.audioEngine.outputNode format:processingFormat];
     [self.audioEngine startAndReturnError:nil];
     [player scheduleFile:file atTime:nil completionHandler:nil];
     [player play];
