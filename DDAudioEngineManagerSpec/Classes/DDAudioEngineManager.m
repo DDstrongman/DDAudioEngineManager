@@ -36,9 +36,16 @@
     [audioSession setCategory:AVAudioSessionCategoryPlayAndRecord mode:AVAudioSessionModeMeasurement options:AVAudioSessionCategoryOptionDuckOthers error:&error];
     [audioSession setActive:YES withOptions:AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation error:&error];
     [audioSession setPreferredSampleRate:(double)44100.0 error:&error];
-    
-    NSString * path = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
-    _audioPath = [path stringByAppendingPathComponent:@"temp.wav"];
+    NSString *path = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
+    NSString *dirPath = [path stringByAppendingPathComponent:@"DDAudioEngineManagerRecord"];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    if (![fileManager fileExistsAtPath:dirPath]) {
+        [fileManager createDirectoryAtPath:dirPath
+               withIntermediateDirectories:YES
+                                attributes:nil
+                                     error:nil];
+    }
+    _audioPath = [dirPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.wav",[[NSUUID UUID]UUIDString]]];
     self.recordFileUrl = [NSURL fileURLWithPath:_audioPath];
 }
 

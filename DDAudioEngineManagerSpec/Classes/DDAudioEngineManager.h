@@ -39,7 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  播放指定路径的音频
 
- @param audioPath 指定的沙河路经
+ @param audioPath 指定的沙盒路径
  */
 - (void)playAudioEngine:(NSURL *)audioPath;
 
